@@ -108,7 +108,7 @@ namespace Chat.Services.Controllers
                                  select u;
 
                     User dbUser = result.FirstOrDefault();
-
+                    db.Set<User>().Attach(dbUser);
                     var uploader = new DropboxUploader();
                     var avatarUrl = "";
                     foreach (MultipartFileData file in streamProvider.FileData)
@@ -119,7 +119,8 @@ namespace Chat.Services.Controllers
                         break;
                     }
                     dbUser.Avatar = avatarUrl;
-                    db.Set<User>().Attach(dbUser);
+                    
+                   
                     db.SaveChanges();
                     return Request.CreateResponse(HttpStatusCode.OK, dbUser);
                 }
