@@ -94,14 +94,18 @@ namespace Chat.Services.Controllers
 
             foreach (var user in users)
             {
-                UserLoggedModel curLoggedUser = new UserLoggedModel
+                if (user.SessionKey != null)
                 {
-                    SessionKey = user.SessionKey,
-                    UserID = user.UserID,
-                    Username = user.Username
-                };
+                    UserLoggedModel curLoggedUser = new UserLoggedModel
+                    {
+                        SessionKey = user.SessionKey,
+                        UserID = user.UserID,
+                        Username = user.Username
+                    };
 
-                loggedUsers.Add(curLoggedUser);
+
+                    loggedUsers.Add(curLoggedUser);
+                }
             }
 
             return loggedUsers;
