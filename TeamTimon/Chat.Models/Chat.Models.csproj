@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A01D8493-8A40-4B3B-B4FA-FC46739024E9}</ProjectGuid>
+    <ProjectGuid>{75273D9C-F1D2-4440-A13D-6E6A2E1C040D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Chat.Models</RootNamespace>
@@ -47,55 +47,55 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Channel.cs">
-      <DependentUpon>ChatModels.tt</DependentUpon>
+      <DependentUpon>ChatModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Chat.cs">
-      <DependentUpon>ChatModels.tt</DependentUpon>
+      <DependentUpon>ChatModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="ChatModels.Context.cs">
+    <Compile Include="ChatModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ChatModels.Context.tt</DependentUpon>
+      <DependentUpon>ChatModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="ChatModels.cs">
+    <Compile Include="ChatModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ChatModels.tt</DependentUpon>
+      <DependentUpon>ChatModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="ChatModels.Designer.cs">
+    <Compile Include="ChatModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ChatModels.edmx</DependentUpon>
+      <DependentUpon>ChatModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Class1.cs" />
     <Compile Include="Message.cs">
-      <DependentUpon>ChatModels.tt</DependentUpon>
+      <DependentUpon>ChatModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="User.cs">
-      <DependentUpon>ChatModels.tt</DependentUpon>
+      <DependentUpon>ChatModel.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EntityDeploy Include="ChatModels.edmx">
+    <EntityDeploy Include="ChatModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ChatModels.Designer.cs</LastGenOutput>
+      <LastGenOutput>ChatModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <None Include="ChatModels.Context.tt">
+    <None Include="ChatModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ChatModels.edmx</DependentUpon>
-      <LastGenOutput>ChatModels.Context.cs</LastGenOutput>
+      <DependentUpon>ChatModel.edmx</DependentUpon>
+      <LastGenOutput>ChatModel.Context.cs</LastGenOutput>
     </None>
-    <None Include="ChatModels.edmx.diagram">
-      <DependentUpon>ChatModels.edmx</DependentUpon>
+    <None Include="ChatModel.edmx.diagram">
+      <DependentUpon>ChatModel.edmx</DependentUpon>
     </None>
-    <None Include="ChatModels.tt">
+    <None Include="ChatModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ChatModels.edmx</DependentUpon>
-      <LastGenOutput>ChatModels.cs</LastGenOutput>
+      <DependentUpon>ChatModel.edmx</DependentUpon>
+      <LastGenOutput>ChatModel.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
   </ItemGroup>

@@ -29,8 +29,8 @@ namespace Chat.Repositories
                 string chatName = userFirst.Username + userSecond.Username;
                 string chatNameSecond = userSecond.Username + userFirst.Username;
 
-                var channel = entitySet.Where(c => c.Channels.ChannelName == chatName).FirstOrDefault();
-                var channelSecond = entitySet.Where(c => c.Channels.ChannelName == chatNameSecond).FirstOrDefault();
+                var channel = entitySet.Where(c => c.Channel.ChannelName == chatName).FirstOrDefault();
+                var channelSecond = entitySet.Where(c => c.Channel.ChannelName == chatNameSecond).FirstOrDefault();
                 if (channel == null && channelSecond == null)
                 {
                     var newChat = new Chat.Models.Chat();
@@ -46,11 +46,11 @@ namespace Chat.Repositories
                 }
                 else
                 {
-                    var selectChat = entitySet.Where(c => c.Channels.ChannelName == chatNameSecond).FirstOrDefault();
+                    var selectChat = entitySet.Where(c => c.Channel.ChannelName == chatNameSecond).FirstOrDefault();
 
                     if (selectChat == null)
                     {
-                        selectChat = entitySet.Where(c => c.Channels.ChannelName == channel.Channels.ChannelName).FirstOrDefault();
+                        selectChat = entitySet.Where(c => c.Channel.ChannelName == channel.Channel.ChannelName).FirstOrDefault();
                     }
 
                     return selectChat;

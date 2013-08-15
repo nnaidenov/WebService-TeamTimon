@@ -25,7 +25,8 @@ namespace Chat.Services.Controllers
         public HttpResponseMessage UnsubscribeChannels(string sessionKey)
         {
             var rep = new DbChannelRepository(db);
-            int userId = db.Set<User>().Where(u => u.SessionKey == sessionKey).Select(u => u.UserID).FirstOrDefault();
+            int userId = db.Set<User>().Where(u => u.SessionKey == sessionKey).Select(u=>u.UserID).FirstOrDefault();
+
             var result = rep.GetAllUnsubscribeChannels(userId);
 
             List<ChannelModel> all = new List<ChannelModel>();
@@ -36,7 +37,7 @@ namespace Chat.Services.Controllers
                     ChannelName = res.ChannelName,
                     FirstUserId = res.UserID,
                     SecondUserId = res.SecondUserID,
-                    FirstUsername = db.Set<User>().Where(u=>u.UserID == res.UserID).Select(u=>u.Username).FirstOrDefault(),
+                    FirstUsername = db.Set<User>().Where(u => u.UserID == res.UserID).Select(u => u.Username).FirstOrDefault(),
                     SecondUsername = db.Set<User>().Where(u => u.UserID == res.SecondUserID).Select(u => u.Username).FirstOrDefault(),
                 };
 
