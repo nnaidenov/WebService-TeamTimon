@@ -18,6 +18,7 @@ namespace Chat.Repositories
         {
             this.dbContext = dbContext;
             this.entitySet = this.dbContext.Set<User>();
+            dbContext.Configuration.ProxyCreationEnabled = false;
         }
 
         public void CreateUser(string username, string password)

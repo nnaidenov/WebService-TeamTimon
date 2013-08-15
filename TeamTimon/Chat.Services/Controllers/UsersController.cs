@@ -18,6 +18,7 @@ namespace Chat.Services.Controllers
         public UsersController(IRepository<User> repository)
         {
             this.userRepository = repository;
+
         }
 
         [HttpPost]

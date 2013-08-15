@@ -27,7 +27,7 @@ function drop(evt) {
 
             $.ajax({
                 type: "POST",
-                url: "/api/upload/upload-file",
+                url: "/api/upload/upload-avatar/rvzsxsJUl4tNhFBJAjtOR1p4H8z5wnEggb8lcEHiC3tb70uFIR",
                 contentType: false,
                 processData: false,
                 data: data,

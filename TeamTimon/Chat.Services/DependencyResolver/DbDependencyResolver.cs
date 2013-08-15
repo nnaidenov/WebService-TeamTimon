@@ -27,6 +27,10 @@ namespace Chat.Services.DependencyResolver
             {
                 return new ChannelsController(new DbChannelRepository(new ChatEntities()));
             }
+            else if (serviceType == typeof(UploadController))
+            {
+                return new UploadController(new DbUsersRepository(new ChatEntities()));
+            }
             else
             {
                 return null;
