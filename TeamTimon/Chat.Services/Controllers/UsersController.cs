@@ -110,9 +110,25 @@ namespace Chat.Services.Controllers
         }
 
         // GET api/user/5
-        public User Get(int id)
+        public HttpResponseMessage Get(int id)
         {
-            return this.userRepository.Get(id);
+            User user = this.userRepository.Get(id);
+            if (user != null)
+            {
+                UserLoggedModel curLoggedUser = new UserLoggedModel
+                {
+                    SessionKey = user.SessionKey,
+                    UserID = user.UserID,
+                    Username = user.Username
+                };
+                var responseMsg = this.Request.CreateResponse(HttpStatusCode.OK, curLoggedUser);
+                return responseMsg;
+            }
+            else
+            {
+                var responseMsg = this.Request.CreateResponse(HttpStatusCode.NotFound, "User id incorrect!");
+                return responseMsg;
+            }
         }
 
         // POST api/user
