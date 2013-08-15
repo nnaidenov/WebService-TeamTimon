@@ -21,7 +21,6 @@ namespace Chat.Models
         }
     
         public int ChatID { get; set; }
-        public string ChannelName { get; set; }
         public int ChannelID { get; set; }
     
         public virtual ICollection<Message> Messages { get; set; }

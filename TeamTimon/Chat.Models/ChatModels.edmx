@@ -180,7 +180,6 @@
             <PropertyRef Name="ChatID" />
           </Key>
           <Property Name="ChatID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="ChannelName" Type="String" Nullable="false" MaxLength="150" Unicode="false" FixedLength="false" />
           <NavigationProperty Name="Messages" Relationship="ChatModel.FK_Messages_Chats" FromRole="Chats" ToRole="Messages" />
           <NavigationProperty Name="Users" Relationship="ChatModel.UsersChats" FromRole="Chats" ToRole="Users" />
           <Property Type="Int32" Name="ChannelID" Nullable="false" />
