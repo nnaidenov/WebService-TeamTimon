@@ -84,9 +84,23 @@ namespace Chat.Repositories
                     throw new ArgumentNullException();
                 }
 
+                DeleteAllChannels(user.UserID);
+
                 user.SessionKey = null;
                 dbContext.SaveChanges();
             }
+        }
+
+        private void DeleteAllChannels(int userId)
+        {
+          var result =  dbContext.Set<Channel>().Where(u => u.UserID == userId).Select(c => c).ToList();
+
+          foreach (var item in result)
+          {
+              dbContext.Set<Channel>().Remove(item);
+          }
+
+          dbContext.SaveChanges();
         }
 
 

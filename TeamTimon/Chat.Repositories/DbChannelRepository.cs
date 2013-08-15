@@ -21,7 +21,7 @@ namespace Chat.Repositories
 
         public List<Channel> GetAllUnsubscribeChannels(int userId)
         {
-            var dbUser = this.entitySet.Where(u => u.UserID == userId).Where(u => u.UserGet == false).Select(c => c).ToList();
+            var dbUser = this.entitySet.Where(u => u.UserID == userId).Select(c => c).ToList();
 
             return dbUser;
         }

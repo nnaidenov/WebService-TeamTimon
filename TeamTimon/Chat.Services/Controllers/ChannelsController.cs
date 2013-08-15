@@ -35,7 +35,9 @@ namespace Chat.Services.Controllers
                 {
                     ChannelName = res.ChannelName,
                     FirstUserId = res.UserID,
-                    SecondUserId = res.SecondUserID
+                    SecondUserId = res.SecondUserID,
+                    FirstUsername = db.Set<User>().Where(u=>u.UserID == res.UserID).Select(u=>u.Username).FirstOrDefault(),
+                    SecondUsername = db.Set<User>().Where(u => u.UserID == res.SecondUserID).Select(u => u.Username).FirstOrDefault(),
                 };
 
                 all.Add(newChannel);
