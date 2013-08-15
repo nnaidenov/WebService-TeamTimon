@@ -23,7 +23,7 @@ namespace Chat.Services.Controllers
             this.messageRepository = repository;
         }
 
-        // GET api/Messages
+        // GET api/Messages/GetMessages?chatId={chatId}
         public IEnumerable<Message> GetMessages(int chatId)
         {
             var messages = (from m in db.Messages
@@ -33,7 +33,7 @@ namespace Chat.Services.Controllers
             return messages.AsEnumerable();
         }
 
-        // GET api/Messages/5
+        // GET api/Messages/GetMessage?id={id}
         public Message GetMessage(int id)
         {
             Message message = messageRepository.Get(id);
@@ -69,8 +69,9 @@ namespace Chat.Services.Controllers
         //    }
         //}
 
-        // POST api/Messages
 
+
+        // POST api/Messages/PostMessage
         public HttpResponseMessage PostMessage(Message message)
         {
             var chatId = message.ChatID;
