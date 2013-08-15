@@ -9,6 +9,7 @@ using System.Web.Http;
 using Chat.Models;
 using Chat.Repositories;
 using Chat.Services.Utils;
+using PubNubMessaging.Core;
 
 namespace Chat.Services.Controllers
 {
@@ -24,7 +25,7 @@ namespace Chat.Services.Controllers
 
         [HttpPost]
         [ActionName("upload-file")]
-        public async Task<HttpResponseMessage> Post()
+        public async Task<HttpResponseMessage> Post(string sessionKey, string channel)
         {
             string folderName = @"Uploads";
             string PATH = HttpContext.Current.Server.MapPath("~/" + folderName);
@@ -55,7 +56,8 @@ namespace Chat.Services.Controllers
                 {
                     // Read the form data.
                     await Request.Content.ReadAsMultipartAsync(streamProvider);
-
+                    Pubnub pubnub = new Pubnub("demo", "demo");
+                    string pubnubChannel = channel;
                     //var dbUser = unitOfWork.Users.All().FirstOrDefault(x => x.Sessionkey == sessionkey);
                     var uploader = new DropboxUploader();
                     List<string> urls = new List<string>();
@@ -64,10 +66,10 @@ namespace Chat.Services.Controllers
                         //Trace.WriteLine(file.Headers.ContentDisposition.FileName);
                         //Trace.WriteLine("Server file path: " + file.LocalFileName);
                         string fileName = file.LocalFileName.Normalize();
-                        var url = uploader.UploadFileToDropBox(fileName, file.Headers.ContentDisposition.FileName);
+                        var url = uploader.UploadFileToDropBox(fileName.Trim(), file.Headers.ContentDisposition.FileName.Replace("\"", ""));
                         urls.Add(url.ToString());
                         //dbUser.ProfilePicture = url;
-
+                        pubnub.Publish(pubnubChannel, url.ToString(), (object obj) => {});
                         //break;
                     }
                     return Request.CreateResponse(HttpStatusCode.OK, urls);

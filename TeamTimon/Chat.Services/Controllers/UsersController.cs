@@ -126,7 +126,8 @@ namespace Chat.Services.Controllers
                     Username = user.Username,
                     AvatarURL = user.Avatar
                 };
-                var responseMsg = this.Request.CreateResponse(HttpStatusCode.OK, curLoggedUser);
+                var jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(curLoggedUser);
+                var responseMsg = this.Request.CreateResponse(HttpStatusCode.OK, jsonString);
                 return responseMsg;
             }
             else
