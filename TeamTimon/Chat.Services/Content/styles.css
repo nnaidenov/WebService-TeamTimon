@@ -1,0 +1,113 @@
+﻿body {
+}
+
+#container {
+    width: 600px;
+    border: 2px solid green;
+    margin: auto;
+}
+
+#chat-and-users {
+    width: 586px;
+    height: 470px;
+}
+
+#chat-display-window {
+    width: 386px;
+    height: 470px;
+    float: left;
+}
+
+.chat-text-container {
+    width: 326px;
+    height: 370px;
+    overflow-y: scroll;
+    padding: 5px;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+#tabs-content {
+    overflow:auto;
+}
+#active-chats-list {
+    overflow-y:auto;
+    height: 50px;
+}
+#users-window {
+    width: 176px;
+    height: 470px;
+    overflow-y: scroll;
+    padding: 5px;
+    float: right;
+}
+
+    #users-window li {
+        list-style-type: none;
+    }
+
+#send-form {
+    width: 600px;
+    margin: auto;
+}
+
+#send-tb {
+    width: 536px;
+    height: 80px;
+}
+
+#send-btn {
+    width: 50px;
+    height: 80px;
+}
+
+#login-form, #register-form {
+    width: 200px;
+    height: 150px;
+    border: 1px solid green;
+    margin: auto;
+}
+
+#login-register-form {
+    width: 300px;
+    height: 300px;
+    padding: 50px;
+    margin: auto;
+}
+
+a, a:visited {
+    color: darkgreen;
+    text-decoration:none;
+}
+
+#btn-show-login {
+    float: left;
+    text-decoration: none;
+}
+
+#btn-show-register {
+    float: right;
+    text-decoration: none;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+#user-info {
+    height: 50px;
+    color: darkolivegreen;
+}
+
+#greeting {
+    font-size: 24px;
+    padding: 5px;
+}
+
+#logout-btn {
+    padding: 5px;
+    text-decoration: none;
+}
