@@ -327,6 +327,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Uploads\" />
+    <Folder Include="_TemporaryFiles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

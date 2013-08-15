@@ -28,13 +28,13 @@ namespace Chat.Services.Controllers
         [ActionName("upload-file")]
         public async Task<HttpResponseMessage> Post(string sessionKey, string channel)
         {
-            string folderName = Path.Combine(Directory.GetCurrentDirectory(), "_TemporaryFiles");
+            string folderName =  "_TemporaryFiles";
             string PATH = HttpContext.Current.Server.MapPath("~/" + folderName);
             string rootUrl = Request.RequestUri.AbsoluteUri.Replace(Request.RequestUri.AbsolutePath, String.Empty);
 
             if (Request.Content.IsMimeMultipartContent())
             {
-                var streamProvider = new MultipartFormDataStreamProvider(folderName);
+                var streamProvider = new MultipartFormDataStreamProvider(PATH);
                 //var task = Request.Content.ReadAsMultipartAsync(streamProvider).ContinueWith<IEnumerable<FileDesc>>(t =>
                 //{
 
@@ -91,13 +91,13 @@ namespace Chat.Services.Controllers
         [ActionName("upload-avatar")]
         public async Task<HttpResponseMessage> Post(string sessionKey)
         {
-            string folderName = Path.Combine(Directory.GetCurrentDirectory(), "_TemporaryFiles");
+            string folderName = "_TemporaryFiles";
             string PATH = HttpContext.Current.Server.MapPath("~/" + folderName);
             string rootUrl = Request.RequestUri.AbsoluteUri.Replace(Request.RequestUri.AbsolutePath, String.Empty);
 
             if (Request.Content.IsMimeMultipartContent())
             {
-                var streamProvider = new MultipartFormDataStreamProvider(folderName);
+                var streamProvider = new MultipartFormDataStreamProvider(PATH);
 
                 try
                 {
