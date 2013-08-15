@@ -6,11 +6,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace Chat.Repositories
 {
-    class DbChannelRepository : IRepository<Channel>
+    public class DbChannelRepository : IRepository<Channel>
     {
+        private DbContext dbContext;
+        private DbSet<Channel> entitySet;
+
+        public DbChannelRepository(DbContext dbContext)
+        {
+            this.dbContext = dbContext;
+            this.entitySet = this.dbContext.Set<Channel>();
+        }
+
+        public List<Channel> GetAllUnsubscribeChannels(int userId)
+        {
+            var dbUser = this.entitySet.Where(u => u.UserID == userId).Where(u => u.UserGet == false).Select(c => c).ToList();
+
+            return dbUser;
+        }
+
         public Channel Add(Channel item)
         {
             throw new NotImplementedException();

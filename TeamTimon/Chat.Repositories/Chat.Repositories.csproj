@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DbChannelRepository.cs" />
     <Compile Include="DbChatRepository.cs" />
     <Compile Include="DbMessageRepository.cs" />
     <Compile Include="DbUsersRepository.cs" />
