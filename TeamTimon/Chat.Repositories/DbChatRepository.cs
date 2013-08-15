@@ -32,7 +32,7 @@ namespace Chat.Repositories
                 if (channel == null && channelSecond == null)
                 {
                     var newChat = new Chat.Models.Chat();
-                    var newChannel = this.CreateChannel(userFirst, userSecond, newChat, this.dbContext);
+                    var newChannel = this.CreateChannel(userFirst, userSecond, this.dbContext);
                     newChat.ChannelID = newChannel.ChannelID;
 
                     newChat.Users = new List<User> { userFirst, userSecond };
@@ -67,7 +67,7 @@ namespace Chat.Repositories
 
         public void Delete(int id)
         {
-            this.entitySet.Find(id);
+            throw new NotImplementedException();
         }
 
         public void Delete(Chat.Models.Chat item)
@@ -90,7 +90,7 @@ namespace Chat.Repositories
             throw new NotImplementedException();
         }
 
-        private Channel CreateChannel(User userFirst, User userSecond, Models.Chat newChat, DbContext dbContext)
+        private Channel CreateChannel(User userFirst, User userSecond, DbContext dbContext)
         {
             Channel newChannel = new Channel
             {

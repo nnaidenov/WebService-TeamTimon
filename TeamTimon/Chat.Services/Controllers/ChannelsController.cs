@@ -13,7 +13,7 @@ namespace Chat.Services.Controllers
     public class ChannelsController : ApiController
     {
         private readonly IRepository<Channel> channelRepository;
-        private ChatEntities db = new ChatEntities();
+        private readonly ChatEntities db = new ChatEntities();
 
         public ChannelsController(IRepository<Channel> repository)
         {
