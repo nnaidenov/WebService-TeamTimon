@@ -9,12 +9,19 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using Chat.Models;
+using Chat.Repositories;
 
 namespace Chat.Services.Controllers
 {
     public class MessagesController : ApiController
     {
+        private readonly IRepository<Message> messageRepository;
         private ChatEntities db = new ChatEntities();
+
+        public MessagesController(IRepository<Message> repository)
+        {
+            this.messageRepository = repository;
+        }
 
         // GET api/Messages
         public IEnumerable<Message> GetMessages(int chatId)
@@ -27,16 +34,16 @@ namespace Chat.Services.Controllers
         }
 
         // GET api/Messages/5
-        //public Message GetMessage(int id)
-        //{
-        //    Message message = db.Messages.Find(id);
-        //    if (message == null)
-        //    {
-        //        throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
-        //    }
+        public Message GetMessage(int id)
+        {
+            Message message = messageRepository.Get(id);
+            if (message == null)
+            {
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
+            }
 
-        //    return message;
-        //}
+            return message;
+        }
 
         //// PUT api/Messages/5
         //public HttpResponseMessage PutMessage(int id, Message message)
