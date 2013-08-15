@@ -63,7 +63,7 @@ namespace Chat.Services.Controllers
                     {
                         //Trace.WriteLine(file.Headers.ContentDisposition.FileName);
                         //Trace.WriteLine("Server file path: " + file.LocalFileName);
-                        string fileName = file.LocalFileName;
+                        string fileName = file.LocalFileName.Normalize();
                         var url = uploader.UploadFileToDropBox(fileName, file.Headers.ContentDisposition.FileName);
                         urls.Add(url.ToString());
                         //dbUser.ProfilePicture = url;
@@ -114,13 +114,13 @@ namespace Chat.Services.Controllers
                     foreach (MultipartFileData file in streamProvider.FileData)
                     {
                         string fileName = file.LocalFileName;
-                        var url = uploader.UploadFileToDropBox(fileName, file.Headers.ContentDisposition.FileName);
+                        var url = uploader.UploadFileToDropBox(fileName.Trim(), file.Headers.ContentDisposition.FileName.Replace("\"", ""));
                         avatarUrl = url;
                         break;
                     }
                     dbUser.Avatar = avatarUrl;
-                    
-                   
+
+
                     db.SaveChanges();
                     return Request.CreateResponse(HttpStatusCode.OK, dbUser);
                 }

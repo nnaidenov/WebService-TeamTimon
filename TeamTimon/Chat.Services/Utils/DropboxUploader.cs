@@ -24,7 +24,7 @@ namespace Chat.Services.Utils
             //}
             OAuthToken oauthAccessToken = LoadOAuthToken();
 
-            // Login in Dropbox 
+            // Login in Dropbox
             IDropbox dropbox = dropboxServiceProvider.GetApi(oauthAccessToken.Value, oauthAccessToken.Secret);
 
             // Display user name (from his profile)
@@ -42,9 +42,9 @@ namespace Chat.Services.Utils
 
             // Share a file
             //DropboxLink sharedUrl = dropbox.GetShareableLinkAsync(uploadFileEntry.Path).Result;
-            DropboxLink sharedUrl = dropbox.GetShareableLink(uploadFileEntry.Path);
-            var ret = sharedUrl.Url.ToString();
-            return ret;
+            string sharedUrl = dropbox.GetMediaLink(uploadFileEntry.Path).Url.ToString();
+            // var ret = sharedUrl.Url.ToString();
+            return sharedUrl;
         }
 
         private OAuthToken LoadOAuthToken()

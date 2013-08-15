@@ -21,7 +21,7 @@ function drop(evt) {
         if (window.FormData !== undefined) {
             var data = new FormData();
             for (i = 0; i < files.length; i++) {
-                //console.log(files[i]);
+               console.log(files[i]);
                 data.append("file"+i,files[i]);
             }
 
