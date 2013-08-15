@@ -127,7 +127,7 @@ namespace Chat.Repositories
 
         private void DeleteAllChannels(int userId)
         {
-            var result = this.dbContext.Set<Channel>().Where(u => u.UserID == userId).Select(c => c).ToList();
+            var result = this.dbContext.Set<Channel>().Where(u => u.UserID == userId || u.SecondUserID == userId).Select(c => c).ToList();
 
             foreach (var item in result)
             {
