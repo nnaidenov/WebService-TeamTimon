@@ -24,7 +24,7 @@ namespace Chat.Services.Utils
             //}
             OAuthToken oauthAccessToken = LoadOAuthToken();
 
-            // Login in Dropbox
+            // Login in Dropbox 
             IDropbox dropbox = dropboxServiceProvider.GetApi(oauthAccessToken.Value, oauthAccessToken.Secret);
 
             // Display user name (from his profile)
