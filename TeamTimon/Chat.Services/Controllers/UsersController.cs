@@ -38,7 +38,8 @@ namespace Chat.Services.Controllers
             {
                 UserID = user.UserID,
                 Username = user.Username,
-                SessionKey = sessionKey
+                SessionKey = sessionKey,
+                AvatarURL = user.Avatar
             };
 
             return this.Request.CreateResponse(HttpStatusCode.Created, loggedUser);
@@ -63,7 +64,8 @@ namespace Chat.Services.Controllers
                 {
                     UserID = newUser.UserID,
                     Username = newUser.Username,
-                    SessionKey = sessionKey
+                    SessionKey = sessionKey,
+                    AvatarURL = newUser.Avatar
                 };
                 var responseMsg = this.Request.CreateResponse(HttpStatusCode.OK, userModel);
                 return responseMsg;
@@ -100,7 +102,8 @@ namespace Chat.Services.Controllers
                     {
                         SessionKey = user.SessionKey,
                         UserID = user.UserID,
-                        Username = user.Username
+                        Username = user.Username,
+                        AvatarURL = user.Avatar
                     };
 
                     loggedUsers.Add(curLoggedUser);
@@ -120,7 +123,8 @@ namespace Chat.Services.Controllers
                 {
                     SessionKey = user.SessionKey,
                     UserID = user.UserID,
-                    Username = user.Username
+                    Username = user.Username,
+                    AvatarURL = user.Avatar
                 };
                 var responseMsg = this.Request.CreateResponse(HttpStatusCode.OK, curLoggedUser);
                 return responseMsg;
