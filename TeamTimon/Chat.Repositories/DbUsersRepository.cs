@@ -1,44 +1,23 @@
-﻿using Chat.Models;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using Chat.Models;
 
 namespace Chat.Repositories
 {
     public class DbUsersRepository : IRepository<User>
     {
-        private DbContext dbContext;
-        private DbSet<User> entitySet;
-
         private const string SessionKeyChars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
         private const int SessionKeyLen = 50;
+
+        private readonly DbContext dbContext;
+        private readonly DbSet<User> entitySet;
 
         public DbUsersRepository(DbContext dbContext)
         {
             this.dbContext = dbContext;
             this.entitySet = this.dbContext.Set<User>();
-        }
-
-        private static string GenerateSessionKey()
-        {
-            StringBuilder keyChars = new StringBuilder(50);
-            //keyChars.Append(userId.ToString());
-            Random rand = new Random();
-            while (keyChars.Length < SessionKeyLen)
-            {
-                int randomCharNum;
-                lock (rand)
-                {
-                    randomCharNum = rand.Next(SessionKeyChars.Length);
-                }
-                char randomKeyChar = SessionKeyChars[randomCharNum];
-                keyChars.Append(randomKeyChar);
-            }
-            string sessionKey = keyChars.ToString();
-            return sessionKey;
         }
 
         public void CreateUser(string username, string password)
@@ -48,12 +27,12 @@ namespace Chat.Repositories
             if (dbUser == null)
             {
                 dbUser = new User()
-               {
-                   Username = usernameToLower,
-                   Password = password
-               };
+                {
+                    Username = usernameToLower,
+                    Password = password
+                };
 
-                entitySet.Add(dbUser);
+                this.entitySet.Add(dbUser);
                 this.dbContext.SaveChanges();
             }
         }
@@ -76,63 +55,20 @@ namespace Chat.Repositories
 
         public void LogoutUser(string sessionKey)
         {
-            using (dbContext)
+            using (this.dbContext)
             {
-                var user = entitySet.FirstOrDefault(u => u.SessionKey == sessionKey);
+                var user = this.entitySet.FirstOrDefault(u => u.SessionKey == sessionKey);
                 if (user == null)
                 {
                     throw new ArgumentNullException();
                 }
 
-                DeleteAllChannels(user.UserID);
+                this.DeleteAllChannels(user.UserID);
 
                 user.SessionKey = null;
-                dbContext.SaveChanges();
+                this.dbContext.SaveChanges();
             }
         }
-
-        private void DeleteAllChannels(int userId)
-        {
-          var result =  dbContext.Set<Channel>().Where(u => u.UserID == userId).Select(c => c).ToList();
-
-          foreach (var item in result)
-          {
-              dbContext.Set<Channel>().Remove(item);
-          }
-
-          dbContext.SaveChanges();
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         public User Add(User item)
         {
@@ -168,6 +104,37 @@ namespace Chat.Repositories
         public IQueryable<User> GetAll()
         {
             return this.entitySet;
+        }
+
+        private static string GenerateSessionKey()
+        {
+            StringBuilder keyChars = new StringBuilder(50);
+            //keyChars.Append(userId.ToString());
+            Random rand = new Random();
+            while (keyChars.Length < SessionKeyLen)
+            {
+                int randomCharNum;
+                lock (rand)
+                {
+                    randomCharNum = rand.Next(SessionKeyChars.Length);
+                }
+                char randomKeyChar = SessionKeyChars[randomCharNum];
+                keyChars.Append(randomKeyChar);
+            }
+            string sessionKey = keyChars.ToString();
+            return sessionKey;
+        }
+
+        private void DeleteAllChannels(int userId)
+        {
+            var result = this.dbContext.Set<Channel>().Where(u => u.UserID == userId).Select(c => c).ToList();
+
+            foreach (var item in result)
+            {
+                this.dbContext.Set<Channel>().Remove(item);
+            }
+
+            this.dbContext.SaveChanges();
         }
     }
 }

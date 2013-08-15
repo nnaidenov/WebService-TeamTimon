@@ -1,17 +1,15 @@
-﻿using Chat.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Chat.Models;
 
 namespace Chat.Repositories
 {
     public class DbChatRepository : IRepository<Chat.Models.Chat>
     {
-        private DbContext dbContext;
-        private DbSet<Chat.Models.Chat> entitySet;
+        private readonly DbContext dbContext;
+        private readonly DbSet<Chat.Models.Chat> entitySet;
 
         public DbChatRepository(DbContext dbContext)
         {
@@ -26,15 +24,15 @@ namespace Chat.Repositories
 
             if (userFirst.UserID > 0 && id > 0)
             {
-                string chatName = userFirst.Username + userSecond.Username;
-                string chatNameSecond = userSecond.Username + userFirst.Username;
+                string chatName = string.Format("{0}{1}", userFirst.Username, userSecond.Username);
+                string chatNameSecond = string.Format("{0}{1}", userSecond.Username, userFirst.Username);
 
-                var channel = entitySet.Where(c => c.Channel.ChannelName == chatName).FirstOrDefault();
-                var channelSecond = entitySet.Where(c => c.Channel.ChannelName == chatNameSecond).FirstOrDefault();
+                var channel = this.entitySet.Where(c => c.Channel.ChannelName == chatName).FirstOrDefault();
+                var channelSecond = this.entitySet.Where(c => c.Channel.ChannelName == chatNameSecond).FirstOrDefault();
                 if (channel == null && channelSecond == null)
                 {
                     var newChat = new Chat.Models.Chat();
-                    var newChannel = CreateChannel(userFirst, userSecond, newChat, dbContext);
+                    var newChannel = this.CreateChannel(userFirst, userSecond, newChat, this.dbContext);
                     newChat.ChannelID = newChannel.ChannelID;
 
                     newChat.Users = new List<User> { userFirst, userSecond };
@@ -46,11 +44,11 @@ namespace Chat.Repositories
                 }
                 else
                 {
-                    var selectChat = entitySet.Where(c => c.Channel.ChannelName == chatNameSecond).FirstOrDefault();
+                    var selectChat = this.entitySet.Where(c => c.Channel.ChannelName == chatNameSecond).FirstOrDefault();
 
                     if (selectChat == null)
                     {
-                        selectChat = entitySet.Where(c => c.Channel.ChannelName == channel.Channel.ChannelName).FirstOrDefault();
+                        selectChat = this.entitySet.Where(c => c.Channel.ChannelName == channel.Channel.ChannelName).FirstOrDefault();
                     }
 
                     return selectChat;
@@ -60,21 +58,6 @@ namespace Chat.Repositories
             {
                 throw new ArgumentNullException();
             }
-        }
-
-        private Channel CreateChannel(User userFirst, User userSecond, Models.Chat newChat, DbContext dbContext)
-        {
-            Channel newChannel = new Channel
-            {
-                ChannelName = userFirst.Username + userSecond.Username,
-                UserID = userFirst.UserID,
-                SecondUserID = userSecond.UserID
-            };
-
-            dbContext.Set<Channel>().Add(newChannel);
-            dbContext.SaveChanges();
-
-            return newChannel;
         }
 
         public Models.Chat Update(int id, Chat.Models.Chat item)
@@ -105,6 +88,21 @@ namespace Chat.Repositories
         public Models.Chat Add(Models.Chat item)
         {
             throw new NotImplementedException();
+        }
+
+        private Channel CreateChannel(User userFirst, User userSecond, Models.Chat newChat, DbContext dbContext)
+        {
+            Channel newChannel = new Channel
+            {
+                ChannelName = string.Format("{0}{1}", userFirst.Username, userSecond.Username),
+                UserID = userFirst.UserID,
+                SecondUserID = userSecond.UserID
+            };
+
+            dbContext.Set<Channel>().Add(newChannel);
+            dbContext.SaveChanges();
+
+            return newChannel;
         }
     }
 }

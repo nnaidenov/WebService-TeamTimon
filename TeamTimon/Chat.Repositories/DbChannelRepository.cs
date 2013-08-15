@@ -1,17 +1,15 @@
-﻿using Chat.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Chat.Models;
 
 namespace Chat.Repositories
 {
     public class DbChannelRepository : IRepository<Channel>
     {
-        private DbContext dbContext;
-        private DbSet<Channel> entitySet;
+        private readonly DbContext dbContext;
+        private readonly DbSet<Channel> entitySet;
 
         public DbChannelRepository(DbContext dbContext)
         {
