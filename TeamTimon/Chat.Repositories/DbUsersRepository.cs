@@ -74,36 +74,20 @@ namespace Chat.Repositories
             return "Error";
         }
 
-        //public static int LoginUser(string sessionKey)
-        //{
-        //    ValidateSessionKey(sessionKey);
-        //    var context = new BullsAndCowsEntities();
-        //    using (context)
-        //    {
-        //        var user = context.Users.FirstOrDefault(u => u.SessionKey == sessionKey);
-        //        if (user == null)
-        //        {
-        //            throw new ServerErrorException("Invalid user authentication", "INV_USR_AUTH");
-        //        }
-        //        return (int)user.Id;
-        //    }
-        //}
+        public void LogoutUser(string sessionKey)
+        {
+            using (dbContext)
+            {
+                var user = entitySet.FirstOrDefault(u => u.SessionKey == sessionKey);
+                if (user == null)
+                {
+                    throw new ArgumentNullException();
+                }
 
-        //public static void LogoutUser(string sessionKey)
-        //{
-        //    ValidateSessionKey(sessionKey);
-        //    var context = new BullsAndCowsEntities();
-        //    using (context)
-        //    {
-        //        var user = context.Users.FirstOrDefault(u => u.SessionKey == sessionKey);
-        //        if (user == null)
-        //        {
-        //            throw new ServerErrorException("Invalid user authentication", "INV_USR_AUTH");
-        //        }
-        //        user.SessionKey = null;
-        //        context.SaveChanges();
-        //    }
-        //}
+                user.SessionKey = null;
+                dbContext.SaveChanges();
+            }
+        }
 
 
 

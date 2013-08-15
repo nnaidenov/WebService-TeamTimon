@@ -14,10 +14,18 @@ namespace Chat.Models
     
     public partial class Channel
     {
+        public Channel()
+        {
+            this.Chats = new HashSet<Chat>();
+        }
+    
         public int ChannelID { get; set; }
         public string ChannelName { get; set; }
         public int UserID { get; set; }
+        public int SecondUserID { get; set; }
+        public bool UserGet { get; set; }
+        public bool SecondUserGet { get; set; }
     
-        public virtual User User { get; set; }
+        public virtual ICollection<Chat> Chats { get; set; }
     }
 }

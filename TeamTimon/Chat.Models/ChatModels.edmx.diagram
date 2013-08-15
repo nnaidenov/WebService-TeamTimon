@@ -9,10 +9,10 @@
         <EntityTypeShape EntityType="ChatModel.Chat" Width="1.5" PointX="0.75" PointY="3" IsExpanded="true" />
         <EntityTypeShape EntityType="ChatModel.Message" Width="1.5" PointX="5.25" PointY="2.375" IsExpanded="true" />
         <EntityTypeShape EntityType="ChatModel.User" Width="1.5" PointX="3" PointY="5.5" IsExpanded="true" />
-        <AssociationConnector Association="ChatModel.FK_Channels_Users" ManuallyRouted="false" />
         <AssociationConnector Association="ChatModel.FK_Messages_Chats" ManuallyRouted="false" />
         <AssociationConnector Association="ChatModel.FK_Messages_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="ChatModel.UsersChats" ManuallyRouted="false" />
+        <AssociationConnector ManuallyRouted="false" Association="ChatModel.UsersChats" />
+        <AssociationConnector Association="ChatModel.FK_Chats_Channels" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

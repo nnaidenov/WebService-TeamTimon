@@ -16,7 +16,6 @@ namespace Chat.Models
     {
         public User()
         {
-            this.Channels = new HashSet<Channel>();
             this.Messages = new HashSet<Message>();
             this.Chats = new HashSet<Chat>();
         }
@@ -27,7 +26,6 @@ namespace Chat.Models
         public string Avatar { get; set; }
         public string SessionKey { get; set; }
     
-        public virtual ICollection<Channel> Channels { get; set; }
         public virtual ICollection<Message> Messages { get; set; }
         public virtual ICollection<Chat> Chats { get; set; }
     }

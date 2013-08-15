@@ -10,6 +10,11 @@ namespace Chat.Services
         public static void Register(HttpConfiguration config)
         {
             config.Routes.MapHttpRoute(
+               name: "ChatApi",
+               routeTemplate: "api/{controller}/{action}/{id}/{sessionkey}"
+           );
+
+            config.Routes.MapHttpRoute(
                name: "ActionApi",
                routeTemplate: "api/{controller}/{action}/{sessionkey}",
                defaults: new { sessionkey = RouteParameter.Optional }

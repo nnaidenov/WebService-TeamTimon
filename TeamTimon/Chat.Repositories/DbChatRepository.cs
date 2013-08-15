@@ -19,19 +19,45 @@ namespace Chat.Repositories
             this.entitySet = this.dbContext.Set<Chat.Models.Chat>();
         }
 
-        public Models.Chat Add(Chat.Models.Chat item, string sessionKey)
+        public Models.Chat CreateChat(int id, string sessionKey)
         {
-            var userId = this.dbContext.Set<User>().Where(u => u.SessionKey == sessionKey).Select(u => u.UserID).FirstOrDefault();
-           if ((int)userId > 0)
-           {
-               this.entitySet.Add(item);
-               this.dbContext.SaveChanges();
-               return item;
-           }
-           else
-           {
-               throw new ArgumentNullException();
-           }
+            var userFirst = this.dbContext.Set<User>().Where(u => u.SessionKey == sessionKey).Select(u => u).FirstOrDefault();
+            var userSecond = this.dbContext.Set<User>().Where(u => u.UserID == id).Select(u => u).FirstOrDefault();
+
+            if (userFirst.UserID > 0 && id > 0)
+            {
+                string chatName = userFirst.Username + userSecond.Username;
+                string chatNameSecond = userSecond.Username + userFirst.Username;
+
+                var channel = entitySet.Where(c => c.ChannelName == chatName).FirstOrDefault();
+                var channelSecond = entitySet.Where(c => c.ChannelName == chatNameSecond).FirstOrDefault();
+                if (channel == null && channelSecond == null)
+                {
+                    var newChat = new Chat.Models.Chat();
+                    newChat.ChannelName = chatName;
+                    newChat.Users = new List<User> { userFirst, userSecond };
+
+                    this.entitySet.Add(newChat);
+                    this.dbContext.SaveChanges();
+
+                    return newChat;
+                }
+                else
+                {
+                    var selectChat = entitySet.Where(c => c.ChannelName == chatNameSecond).FirstOrDefault();
+
+                    if (selectChat == null)
+                    {
+                        selectChat = entitySet.Where(c => c.ChannelName == channelSecond.ChannelName).FirstOrDefault();
+                    }
+
+                    return selectChat;
+                }               
+            }
+            else
+            {
+                throw new ArgumentNullException();
+            }
         }
 
         public Models.Chat Update(int id, Chat.Models.Chat item)

@@ -70,16 +70,41 @@ namespace Chat.Services.Controllers
             }
         }
 
+        [HttpGet]
+        [ActionName("logout")]
+        public HttpResponseMessage LogoutUser(string sessionKey)
+        {
+            var rep = new DbUsersRepository(db);
+            rep.LogoutUser(sessionKey);
 
+            var responseMsg = Request.CreateResponse(HttpStatusCode.OK);
+            return responseMsg;
+
+        }
 
 
 
 
 
         // GET api/user
-        public IEnumerable<User> Get()
+        public IEnumerable<UserLoggedModel> Get()
         {
-            return this.userRepository.GetAll().ToList();
+            var users = this.userRepository.GetAll().ToList();
+            var loggedUsers = new List<UserLoggedModel>();
+
+            foreach (var user in users)
+            {
+                UserLoggedModel curLoggedUser = new UserLoggedModel
+                {
+                    SessionKey = user.SessionKey,
+                    UserID = user.UserID,
+                    Username = user.Username
+                };
+
+                loggedUsers.Add(curLoggedUser);
+            }
+
+            return loggedUsers;
         }
 
         // GET api/user/5
@@ -116,15 +141,5 @@ namespace Chat.Services.Controllers
 
 
 
-        //[HttpGet]
-        //[ActionName("logout")]
-        //public HttpResponseMessage LogoutUser(string sessionKey)
-        //{
-        //    var responseMsg = this.PerformOperation(() =>
-        //    {
-        //        UsersRepository.LogoutUser(sessionKey);
-        //    });
-        //    return responseMsg;
-        //}
     }
 }

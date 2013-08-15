@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web;
 using System.Web.Http;
 using Chat.Models;
 using Chat.Repositories;
+using Chat.Services.Models;
 
 namespace Chat.Services.Controllers
 {
@@ -19,10 +18,11 @@ namespace Chat.Services.Controllers
 
         [HttpPost]
         [ActionName("create")]
-        public HttpResponseMessage CreateGame(string sessionKey, [FromBody] Chat.Models.Chat chatModel)
+        public HttpResponseMessage CreateGame(string sessionKey, [FromBody] CreateChatModel chatModel)
         {
-            IRepository<Chat.Models.Chat> rep = new DbChatRepository(db);
-            var result = rep.Add(chatModel);
+            DbChatRepository rep = new DbChatRepository(db);
+            var result = rep.CreateChat(chatModel.SecondUserId, sessionKey);
+
             return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
