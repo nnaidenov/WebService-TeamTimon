@@ -34,7 +34,9 @@ namespace Chat.Repositories
                 if (channel == null && channelSecond == null)
                 {
                     var newChat = new Chat.Models.Chat();
-                    newChat.Channels.ChannelName = chatName;
+                    var newChannel = CreateChannel(userFirst, userSecond, newChat, dbContext);
+                    newChat.ChannelID = newChannel.ChannelID;
+
                     newChat.Users = new List<User> { userFirst, userSecond };
 
                     this.entitySet.Add(newChat);
@@ -48,16 +50,31 @@ namespace Chat.Repositories
 
                     if (selectChat == null)
                     {
-                        selectChat = entitySet.Where(c => c.Channels.ChannelName == channelSecond.Channels.ChannelName).FirstOrDefault();
+                        selectChat = entitySet.Where(c => c.Channels.ChannelName == channel.Channels.ChannelName).FirstOrDefault();
                     }
 
                     return selectChat;
-                }               
+                }
             }
             else
             {
                 throw new ArgumentNullException();
             }
+        }
+
+        private Channel CreateChannel(User userFirst, User userSecond, Models.Chat newChat, DbContext dbContext)
+        {
+            Channel newChannel = new Channel
+            {
+                ChannelName = userFirst.Username + userSecond.Username,
+                UserID = userFirst.UserID,
+                SecondUserID = userSecond.UserID
+            };
+
+            dbContext.Set<Channel>().Add(newChannel);
+            dbContext.SaveChanges();
+
+            return newChannel;
         }
 
         public Models.Chat Update(int id, Chat.Models.Chat item)
