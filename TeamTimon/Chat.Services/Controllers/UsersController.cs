@@ -13,7 +13,7 @@ namespace Chat.Services.Controllers
     public class UsersController : ApiController
     {
         private readonly IRepository<User> userRepository;
-        private ChatEntities db = new ChatEntities();
+        private readonly ChatEntities db = new ChatEntities();
 
         public UsersController(IRepository<User> repository)
         {
@@ -24,7 +24,11 @@ namespace Chat.Services.Controllers
         [ActionName("register")]
         public HttpResponseMessage RegisterUser(User user)
         {
-            var rep = new DbUsersRepository(db);
+            var rep = new DbUsersRepository(this.db);
+            if (user.Username.Length <= 3 || user.Password.Length <= 3)
+            {
+                return this.Request.CreateResponse(HttpStatusCode.ExpectationFailed, "Username or password incorrect!");
+            }
             rep.CreateUser(user.Username, user.Password);
 
             var sessionKey = rep.LoginUser(user.Username, user.Password);
@@ -36,7 +40,7 @@ namespace Chat.Services.Controllers
                 SessionKey = sessionKey
             };
 
-            return Request.CreateResponse(HttpStatusCode.Created, loggedUser);
+            return this.Request.CreateResponse(HttpStatusCode.Created, loggedUser);
         }
 
         [HttpPost]
@@ -52,7 +56,7 @@ namespace Chat.Services.Controllers
             User newUser = result.FirstOrDefault();
             if (newUser != null)
             {
-                var rep = new DbUsersRepository(db);
+                var rep = new DbUsersRepository(this.db);
                 var sessionKey = rep.LoginUser(user.Username, user.Password);
                 UserLoggedModel userModel = new UserLoggedModel()
                 {
@@ -60,12 +64,12 @@ namespace Chat.Services.Controllers
                     Username = newUser.Username,
                     SessionKey = sessionKey
                 };
-                var responseMsg = Request.CreateResponse(HttpStatusCode.OK, userModel);
+                var responseMsg = this.Request.CreateResponse(HttpStatusCode.OK, userModel);
                 return responseMsg;
             }
             else
             {
-                var responseMsg = Request.CreateResponse(HttpStatusCode.NotFound);
+                var responseMsg = this.Request.CreateResponse(HttpStatusCode.NotFound);
                 return responseMsg;
             }
         }
@@ -74,17 +78,12 @@ namespace Chat.Services.Controllers
         [ActionName("logout")]
         public HttpResponseMessage LogoutUser(string sessionKey)
         {
-            var rep = new DbUsersRepository(db);
+            var rep = new DbUsersRepository(this.db);
             rep.LogoutUser(sessionKey);
 
-            var responseMsg = Request.CreateResponse(HttpStatusCode.OK);
+            var responseMsg = this.Request.CreateResponse(HttpStatusCode.OK);
             return responseMsg;
-
         }
-
-
-
-
 
         // GET api/user
         public IEnumerable<UserLoggedModel> Get()
@@ -102,7 +101,6 @@ namespace Chat.Services.Controllers
                         UserID = user.UserID,
                         Username = user.Username
                     };
-
 
                     loggedUsers.Add(curLoggedUser);
                 }
@@ -130,7 +128,6 @@ namespace Chat.Services.Controllers
 
         //    return user;
         //}
-
         // PUT api/user/5
         public void Put(int id, [FromBody]
                         string value)
@@ -142,8 +139,5 @@ namespace Chat.Services.Controllers
         {
             this.userRepository.Delete(id);
         }
-
-
-
     }
 }
